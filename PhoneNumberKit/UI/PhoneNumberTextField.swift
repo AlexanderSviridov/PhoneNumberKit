@@ -14,6 +14,8 @@ import UIKit
 /// Custom text field that formats phone numbers
 open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
     public let phoneNumberKit: PhoneNumberKit
+    
+    public var sendRegion: ((String) -> Void)?
 
     public lazy var flagButton = UIButton()
 
@@ -305,6 +307,8 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         }
 
         let flagBase = UnicodeScalar("🇦").value - UnicodeScalar("A").value
+        
+        sendRegion?(currentRegion)
 
         let flag = self.currentRegion
             .uppercased()
@@ -496,32 +500,32 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         return self._delegate?.textFieldShouldBeginEditing?(textField) ?? true
     }
 
-    open func textFieldDidBeginEditing(_ textField: UITextField) {
-        if self.withExamplePlaceholder, self.withPrefix, let countryCode = phoneNumberKit.countryCode(for: currentRegion)?.description, (text ?? "").isEmpty {
-            text = "+" + countryCode + " "
-        }
-        self._delegate?.textFieldDidBeginEditing?(textField)
-    }
+//    open func textFieldDidBeginEditing(_ textField: UITextField) {
+//        if self.withExamplePlaceholder, self.withPrefix, let countryCode = phoneNumberKit.countryCode(for: currentRegion)?.description, (text ?? "").isEmpty {
+//            text = "+" + countryCode + " "
+//        }
+//        self._delegate?.textFieldDidBeginEditing?(textField)
+//    }
 
     open func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return self._delegate?.textFieldShouldEndEditing?(textField) ?? true
     }
 
-    open func textFieldDidEndEditing(_ textField: UITextField) {
-        updateTextFieldDidEndEditing(textField)
-        self._delegate?.textFieldDidEndEditing?(textField)
-    }
+//    open func textFieldDidEndEditing(_ textField: UITextField) {
+//        updateTextFieldDidEndEditing(textField)
+//        self._delegate?.textFieldDidEndEditing?(textField)
+//    }
 
-    open func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        updateTextFieldDidEndEditing(textField)
-        if let _delegate = _delegate {
-            if _delegate.responds(to: #selector(textFieldDidEndEditing(_:reason:))) {
-                _delegate.textFieldDidEndEditing?(textField, reason: reason)
-            } else {
-                _delegate.textFieldDidEndEditing?(textField)
-            }
-        }
-    }
+//    open func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+//        updateTextFieldDidEndEditing(textField)
+//        if let _delegate = _delegate {
+//            if _delegate.responds(to: #selector(textFieldDidEndEditing(_:reason:))) {
+//                _delegate.textFieldDidEndEditing?(textField, reason: reason)
+//            } else {
+//                _delegate.textFieldDidEndEditing?(textField)
+//            }
+//        }
+//    }
 
     open func textFieldShouldClear(_ textField: UITextField) -> Bool {
         return self._delegate?.textFieldShouldClear?(textField) ?? true
