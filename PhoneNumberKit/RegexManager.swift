@@ -31,7 +31,7 @@ final class RegexManager {
             regularExpressionPool[pattern]
         }
 
-        if let cached {
+        if let cached = cached {
             return cached
         }
 
@@ -92,7 +92,7 @@ final class RegexManager {
     }
 
     func matchesExist(_ pattern: String?, string: String) -> Bool {
-        guard let pattern else {
+        guard let pattern = pattern else {
             return false
         }
         do {
@@ -104,7 +104,7 @@ final class RegexManager {
     }
 
     func matchesEntirely(_ pattern: String?, string: String) -> Bool {
-        guard var pattern else {
+        guard var pattern = pattern else {
             return false
         }
         pattern = "^(\(pattern))$"
